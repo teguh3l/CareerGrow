@@ -1,5 +1,6 @@
 package com.notfoundteam.careergrowapp.ui.register
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import com.notfoundteam.careergrowapp.data.pref.ResultState
 import com.notfoundteam.careergrowapp.databinding.ActivityRegisterBinding
 import com.notfoundteam.careergrowapp.ui.ViewModelFactory
+import com.notfoundteam.careergrowapp.ui.login.LoginActivity
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -69,9 +71,9 @@ class RegisterActivity : AppCompatActivity() {
                         showLoading(false)
                         AlertDialog.Builder(this).apply {
                             setTitle("Yeah!")
-                            setMessage("Akun dengan $email sudah jadi nih. Yuk, login dan belajar coding.")
+                            setMessage("Akun dengan $email sudah jadi nih. Yuk, login di CareerGrow.")
                             setPositiveButton("Lanjut") { _, _ ->
-                                finish()
+                                startLoginActivity()
                             }
                             create()
                             show()
@@ -89,6 +91,14 @@ class RegisterActivity : AppCompatActivity() {
             }
 
         }
+    }
+
+    private fun startLoginActivity() {
+        val intent = Intent(this, LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        startActivity(intent)
+        finish()
     }
 
     private fun showLoading(state: Boolean) {
