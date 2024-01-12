@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "43764079916",
+    "project_id": "careergrowapp",
+    "storage_bucket": "careergrowapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:43764079916:android:2b99556d81011d97e06089",
+        "android_client_info": {
+          "package_name": "com.notfoundteam.careergrowapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "43764079916-bvpsn6e1oisik9mh2vaco4gqf4i56f1d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.notfoundteam.careergrowapp",
+            "certificate_hash": "e02e30c733abf4ae616f4ecf451c79c63403744c"
+          }
+        },
+        {
+          "client_id": "43764079916-tc845njjsbspmg5vkbbvs15o8v0sa5t2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBS6mFfyJryhcfbdxCi4wPjlBlAPZQhFj0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "43764079916-tc845njjsbspmg5vkbbvs15o8v0sa5t2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

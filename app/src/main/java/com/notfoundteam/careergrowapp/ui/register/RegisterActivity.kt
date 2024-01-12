@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.notfoundteam.careergrowapp.ui.register
 
 import android.content.Intent
@@ -15,6 +17,7 @@ import com.notfoundteam.careergrowapp.databinding.ActivityRegisterBinding
 import com.notfoundteam.careergrowapp.ui.ViewModelFactory
 import com.notfoundteam.careergrowapp.ui.login.LoginActivity
 
+@Suppress("DEPRECATION")
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
@@ -30,10 +33,15 @@ class RegisterActivity : AppCompatActivity() {
         setupView()
         setupAction()
 
+        binding.toolbar.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
     }
 
     private fun setupView() {
-        @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.hide(WindowInsets.Type.statusBars())
         } else {
@@ -42,7 +50,7 @@ class RegisterActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
         }
-        supportActionBar?.hide()
+        supportActionBar?.show()
     }
 
     private fun setupAction() {

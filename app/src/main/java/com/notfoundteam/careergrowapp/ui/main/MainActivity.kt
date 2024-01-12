@@ -6,11 +6,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.notfoundteam.careergrowapp.R
 import com.notfoundteam.careergrowapp.databinding.ActivityMainBinding
 import com.notfoundteam.careergrowapp.ui.ViewModelFactory
@@ -23,27 +27,49 @@ class MainActivity : AppCompatActivity() {
         ViewModelFactory.getInstance(this)
     }
 
+    //firebase-auth
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        observeSession()
+        auth = Firebase.auth
+        val firebaseUser = auth.currentUser
+
+        if (firebaseUser == null) {
+            // Not signed in, launch the Login activity
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+            return
+        }
+
         setupView()
         setToolbar()
 
+
+
     }
 
+    /*
+    //kode ini bermasalah
     private fun observeSession() {
         viewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {
-                startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+                // User is not logged in, redirect to LoginActivity
+                startActivity(Intent(this, LoginActivity::class.java))
+                showLoading(true)
                 finish()
             } else {
-                showLoading(false)
+                // User is logged in, show content of activity_main.xml
+               //TODO
             }
+            showLoading(false)
         }
     }
+
+     */
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
@@ -68,6 +94,7 @@ class MainActivity : AppCompatActivity() {
             when (userMenu.itemId) {
                 R.id.action_logout -> {
                     viewModel.logout()
+                    signOut()
                     Toast.makeText(this, "Anda telah Logout dari CareerGrow", Toast.LENGTH_SHORT)
                         .show()
                     true
@@ -82,6 +109,12 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
+
+    private fun signOut() {
+        auth.signOut()
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 
     private fun showLoading(isLoading : Boolean) {

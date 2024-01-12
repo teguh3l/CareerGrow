@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="GoogleSignInButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">54dp</item>
+        <item name="android:layout_marginTop">32dp</item>
+        <item name="android:text">Sign in with Google</item>
+        <!-- Sesuaikan warna, ukuran, dan atribut lainnya sesuai kebutuhan Anda -->
+    </style>
+
+</resources>

@@ -18,11 +18,11 @@ class ViewModelFactory (private val repository: UserRepository):
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
                 MainViewModel(repository) as T
             }
-            modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
-                LoginViewModel(repository) as T
-            }
             modelClass.isAssignableFrom(RegisterViewModel::class.java) -> {
                 RegisterViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
+                LoginViewModel(repository) as T
             }
 
             else ->
