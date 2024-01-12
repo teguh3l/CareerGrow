@@ -39,6 +39,8 @@ class RegisterActivity : AppCompatActivity() {
             finish()
         }
 
+        binding.optionLogin.setOnClickListener { optionLogin() }
+
     }
 
     private fun setupView() {
@@ -106,6 +108,12 @@ class RegisterActivity : AppCompatActivity() {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         }
         startActivity(intent)
+        finish()
+    }
+
+    private fun optionLogin() {
+        val optionIntent = Intent(this, LoginActivity::class.java)
+        startActivity(optionIntent)
         finish()
     }
 

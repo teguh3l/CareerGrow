@@ -3,7 +3,7 @@
     <string name="sign_out">Sign Out</string>
     <string name="cancel_button">Cancel</string>
     <string name="save_button">Save</string>
-    <string name="welcome"> Welcome CareerGrow</string>
+    <string name="welcome"> Welcome Chintia </string>
     <string name="careergrow">CareerGrow</string>
     <string name="tagline_app">Your AI Career Preparation</string>
 
@@ -45,5 +45,8 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_profile">Profile</string>
+
+    //cardview
+    <string name="current_date">14 Jan 2024</string>
 
 </resources>

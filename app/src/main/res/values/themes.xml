@@ -2,7 +2,8 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.CareerGrowApp" parent="Theme.Material3.DayNight">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorSecondary">@color/blue_light</item>
 
     </style>
 

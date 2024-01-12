@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.notfoundteam.careergrowapp.databinding.FragmentHomeBinding
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class HomeFragment : Fragment() {
 
@@ -28,11 +30,15 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        displayCurrentDate()
+
         return root
+    }
+
+    private fun displayCurrentDate() {
+        val sdf = SimpleDateFormat("dd MMM yyyy", Locale.US)
+        val currentDate = Date()
+        binding.tvCurrentDate.text = sdf.format(currentDate)
     }
 
     override fun onDestroyView() {
