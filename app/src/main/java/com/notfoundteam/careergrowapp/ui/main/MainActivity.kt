@@ -1,17 +1,19 @@
 package com.notfoundteam.careergrowapp.ui.main
 
 import android.content.Intent
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.WindowInsets
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -32,6 +34,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -45,69 +48,56 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        setupView()
-        setToolbar()
+        val navView: BottomNavigationView = binding.navView
 
+        val navController = findNavController(R.id.nav_host_fragment_activity_main2)
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_home,
+                R.id.navigation_dashboard,
+                R.id.navigation_notifications,
+                R.id.navigation_profile
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
 
-
-    }
-
-    /*
-    //kode ini bermasalah
-    private fun observeSession() {
-        viewModel.getSession().observe(this) { user ->
-            if (!user.isLogin) {
-                // User is not logged in, redirect to LoginActivity
-                startActivity(Intent(this, LoginActivity::class.java))
-                showLoading(true)
-                finish()
+        // Observe the user session and update UI accordingly
+        viewModel.getSession().observe(this, { user ->
+            if (user != null) {
+                showLoading(false)
             } else {
-                // User is logged in, show content of activity_main.xml
-               //TODO
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
             }
-            showLoading(false)
-        }
+        })
+
     }
 
-     */
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
     }
 
-    private fun setupView() {
-        @Suppress("DEPRECATION")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.insetsController?.hide(WindowInsets.Type.statusBars())
-        } else {
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN
-            )
-        }
-        supportActionBar?.hide()
-    }
-
-    private fun setToolbar() {
-        binding.topAppBar.setOnMenuItemClickListener { userMenu ->
-            when (userMenu.itemId) {
-                R.id.action_logout -> {
-                    viewModel.logout()
-                    signOut()
-                    Toast.makeText(this, "Anda telah Logout dari CareerGrow", Toast.LENGTH_SHORT)
-                        .show()
-                    true
-                }
-
-                R.id.action_setting -> {
-                    val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
-                    startActivity(intent)
-                    true
-                }
-
-                else -> false
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_logout -> {
+                viewModel.logout()
+                showLoading(true)
+                signOut()
+                Toast.makeText(this, "Anda telah Logout dari CareerGrow", Toast.LENGTH_SHORT)
+                    .show()
+                true
             }
+
+            R.id.action_setting -> {
+                val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+                startActivity(intent)
+                true
+            }
+
+            else -> false
         }
     }
 

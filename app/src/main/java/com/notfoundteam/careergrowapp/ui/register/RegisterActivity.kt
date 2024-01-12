@@ -50,7 +50,7 @@ class RegisterActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
         }
-        supportActionBar?.show()
+        supportActionBar?.hide()
     }
 
     private fun setupAction() {

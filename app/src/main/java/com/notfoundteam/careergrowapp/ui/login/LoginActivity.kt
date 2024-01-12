@@ -12,7 +12,6 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -23,12 +22,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
-import com.notfoundteam.careergrowapp.ui.main.MainActivity
 import com.notfoundteam.careergrowapp.R
 import com.notfoundteam.careergrowapp.data.pref.ResultState
 import com.notfoundteam.careergrowapp.data.model.UserModel
 import com.notfoundteam.careergrowapp.databinding.ActivityLoginBinding
 import com.notfoundteam.careergrowapp.ui.ViewModelFactory
+import com.notfoundteam.careergrowapp.ui.main.MainActivity
 import com.notfoundteam.careergrowapp.ui.register.RegisterActivity
 
 class LoginActivity : AppCompatActivity() {
@@ -66,8 +65,10 @@ class LoginActivity : AppCompatActivity() {
         setupGoogleSignInButton()
 
         binding.signInButton.setOnClickListener {
+            showLoading(true)
             signIn()
         }
+
 
     }
 
@@ -106,49 +107,24 @@ class LoginActivity : AppCompatActivity() {
                                     email, response.data.loginResult.token
                                 )
                             )
-                            showLoading(false)
-                            showLoginSuccessDialog()
+                            startActivity(Intent(this, MainActivity::class.java))
+                            finish()
                         }
                     }
                     is ResultState.Error -> {
+                        Toast.makeText(
+                            this, "Login gagal. Silahkan coba lagi.",
+                            Toast.LENGTH_SHORT)
+                            .show()
                         showLoading(false)
-                        showLoginErrorToast()
                     }
                 }
             }
         }
     }
 
-    //kode ini bermasalah
-    private fun showLoginSuccessDialog(){
-        AlertDialog.Builder(this).apply {
-            setTitle("Yeah!")
-            setMessage("Anda berhasil login!")
-            setPositiveButton("Lanjut") { _, _ ->
-                startMainActivity()
-            }
-            create()
-            show()
-        }
-    }
-
-    private fun showLoginErrorToast() {
-        Toast.makeText(
-            this, "Login gagal. Silahkan coba lagi.",
-            Toast.LENGTH_SHORT).show()
-    }
-
-    //kode ini bermasalah
-    private fun startMainActivity() {
-        val loginIntent = Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        }
-        startActivity(loginIntent)
-        finish()
-    }
-
     private fun optionRegister() {
-        val optionIntent = Intent(this@LoginActivity, RegisterActivity::class.java)
+        val optionIntent = Intent(this, RegisterActivity::class.java)
         startActivity(optionIntent)
         finish()
     }

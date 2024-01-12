@@ -40,5 +40,10 @@
 
     <string name="default_web_client_id"></string>
     <string name="sign_in_with_google">Sign In with Google</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_profile">Profile</string>
 
 </resources>
