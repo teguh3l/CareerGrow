@@ -3,6 +3,7 @@ package com.notfoundteam.careergrowapp.data.pref
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.notfoundteam.careergrowapp.data.api.ApiService
 import com.notfoundteam.careergrowapp.data.model.UserModel
 import com.notfoundteam.careergrowapp.data.response.LoginResponse
@@ -23,27 +24,74 @@ class UserRepository private constructor(
     }
 
     fun register(
-        name: String,
+        nama: String,
         email: String,
-        password: String
+        password: String,
+        conf_password: String
     ): LiveData<ResultState<RegisterResponse>> = liveData {
         emit(ResultState.Loading)
         try {
-            val response = apiService.register(name, email, password)
-            emit(ResultState.Success(response))
+            val requestBody = JsonObject().apply {
+                addProperty("nama", nama)
+                addProperty("email", email)
+                addProperty("password", password)
+                addProperty("conf_password", conf_password)
+            }
+
+            val response = apiService.register("application/json", requestBody)
+
+            if (response.isSuccessful) {
+                val responseBody = response.body()
+
+                if (responseBody != null) {
+                    emit(ResultState.Success(responseBody))
+                }
+                else {
+                    emit(ResultState.Error("Response body is null"))
+                }
+            }
+            else {
+                emit(ResultState.Error("Registration failed: ${response.message()}"))
+            }
+
         } catch (e: HttpException) {
-            emit(ResultState.Error("Registrasi Gagal"))
+            emit(ResultState.Error("Registration failed: ${e.message}"))
         }
     }
 
     fun login(email: String, password: String) = liveData {
         emit(ResultState.Loading)
         try {
-            val response = apiService.login(email, password)
-            emit(ResultState.Success(response))
+            val requestBody = JsonObject().apply {
+                addProperty("email", email)
+                addProperty("password", password)
+            }
+
+            val response = apiService.login("application/json", requestBody)
+
+            if (response.isSuccessful) {
+                val responseBody = response.body()
+
+                if (responseBody != null) {
+                    //convert LoginResponse to UserModel
+                    val userModel = UserModel.fromData(responseBody.data)
+                    saveSession(userModel)
+                    emit(ResultState.Success(responseBody))
+                } else {
+                    emit(ResultState.Error("Response body is null"))
+                }
+            } else {
+                val errorResponse = response.errorBody()?.string()
+                emit(ResultState.Error("Login failed: $errorResponse"))
+            }
+
         } catch (e: HttpException) {
+            // Handle HTTP exception
             val errorBody = parseErrorBody<LoginResponse>(e)
             emit(ResultState.Error(errorBody.message))
+        } catch (e: Exception) {
+            // Handle other exceptions
+            emit(ResultState.Error("Login failed: ${e.message}"))
         }
     }
 

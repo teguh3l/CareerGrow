@@ -1,26 +1,28 @@
 package com.notfoundteam.careergrowapp.data.api
 
+import com.google.gson.JsonObject
 import com.notfoundteam.careergrowapp.data.response.LoginResponse
 import com.notfoundteam.careergrowapp.data.response.RegisterResponse
+import okhttp3.RequestBody
+import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface ApiService {
 
-    @FormUrlEncoded
     @POST("register")
     suspend fun register(
-        @Field("name") name: String,
-        @Field("email") email: String,
-        @Field("password") password: String
-    ): RegisterResponse
+        @Header("Content-Type") contentType: String,
+        @Body requestBody: JsonObject
+    ): Response<RegisterResponse>
 
-    @FormUrlEncoded
     @POST("login")
     suspend fun login(
-        @Field("email") email: String,
-        @Field("password") password: String
-    ): LoginResponse
+        @Header("Content-Type") contentType: String,
+        @Body requestBody: JsonObject
+    ): Response<LoginResponse>
 
 }

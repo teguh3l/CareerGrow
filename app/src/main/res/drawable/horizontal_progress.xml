@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <shape>
+            <solid android:color="@color/blue_light"/> <!-- Warna latar belakang ProgressBar -->
+            <corners android:radius="10dp"/> <!-- Corner radius untuk garis horizontal -->
+        </shape>
+    </item>
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <solid android:color="@color/blue"/> <!-- Warna garis horizontal ProgressBar -->
+                <corners android:radius="10dp"/> <!-- Corner radius untuk garis horizontal -->
+            </shape>
+        </clip>
+    </item>
+</layer-list>

@@ -12,6 +12,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -104,23 +105,43 @@ class LoginActivity : AppCompatActivity() {
                         response.data.message.let {
                             viewModel.saveSession(
                                 UserModel(
-                                    email, response.data.loginResult.token
+                                    email, response.data.data.token
                                 )
                             )
-                            startActivity(Intent(this, MainActivity::class.java))
-                            finish()
+                            showLoading(false)
+                            showLoginSuccessDialog()
                         }
                     }
                     is ResultState.Error -> {
-                        Toast.makeText(
-                            this, "Login gagal. Silahkan coba lagi.",
-                            Toast.LENGTH_SHORT)
-                            .show()
                         showLoading(false)
+                        showLoginErrorToast()
                     }
                 }
             }
         }
+    }
+
+    private fun showLoginSuccessDialog(){
+        AlertDialog.Builder(this).apply {
+            setTitle("Yeah!")
+            setMessage("Anda berhasil login. Mari bagikan Ceritamu!")
+            setPositiveButton("Lanjut") { _, _ ->
+                startMainActivity()
+            }
+            create()
+            show()
+        }
+    }
+    private fun startMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        Log.d("LoginActivity", "Navigation to MainActivity")
+        startActivity(intent)
+        finish()
+    }
+    private fun showLoginErrorToast() {
+        Toast.makeText(
+            this, "Login gagal. Silahkan coba lagi.",
+            Toast.LENGTH_SHORT).show()
     }
 
     private fun optionRegister() {
@@ -128,7 +149,6 @@ class LoginActivity : AppCompatActivity() {
         startActivity(optionIntent)
         finish()
     }
-
     private fun setupGoogleSignInButton() {
         val signInButton = findViewById<SignInButton>(R.id.signInButton)
         signInButton.setSize(SignInButton.SIZE_WIDE) // Sesuaikan ukuran sesuai keinginan Anda
@@ -181,11 +201,9 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
     }
-
     private fun showLoading(state: Boolean) {
         binding.progressBar.visibility = if (state) View.VISIBLE else View.GONE
     }
-
     companion object {
         private const val TAG = "LoginActivity"
     }

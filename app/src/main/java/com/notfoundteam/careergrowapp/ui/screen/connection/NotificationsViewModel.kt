@@ -1,4 +1,4 @@
-package com.notfoundteam.careergrowapp.ui.screen.notifications
+package com.notfoundteam.careergrowapp.ui.screen.connection
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

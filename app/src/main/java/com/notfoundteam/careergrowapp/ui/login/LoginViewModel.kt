@@ -6,13 +6,13 @@ import com.notfoundteam.careergrowapp.data.model.UserModel
 import com.notfoundteam.careergrowapp.data.pref.UserRepository
 import kotlinx.coroutines.launch
 
-class LoginViewModel (private val repository: UserRepository): ViewModel(){
-
-    fun login(email: String, password: String) = repository.login(email, password)
+class LoginViewModel (private val userRepository: UserRepository): ViewModel(){
+    fun login(email: String, password: String)
+        = userRepository.login(email, password)
 
     fun saveSession(user: UserModel) {
         viewModelScope.launch {
-            repository.saveSession(user)
+            userRepository.saveSession(user)
         }
     }
 

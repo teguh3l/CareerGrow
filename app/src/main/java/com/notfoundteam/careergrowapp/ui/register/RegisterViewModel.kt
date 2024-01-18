@@ -6,9 +6,10 @@ import com.notfoundteam.careergrowapp.data.pref.UserRepository
 class RegisterViewModel (private val repository: UserRepository): ViewModel(){
 
     fun register (
-        name: String,
+        nama: String,
         email: String,
         password: String,
-    ) = repository.register(name, email, password)
+        conf_password: String,
+    ) = repository.register(nama, email, password, conf_password)
 
 }

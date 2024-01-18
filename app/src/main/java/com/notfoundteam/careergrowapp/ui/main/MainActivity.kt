@@ -1,5 +1,7 @@
 package com.notfoundteam.careergrowapp.ui.main
 
+import android.app.SearchManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
@@ -10,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -25,18 +28,21 @@ import com.notfoundteam.careergrowapp.ui.login.LoginActivity
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var auth: FirebaseAuth
     private val viewModel: MainViewModel by viewModels {
         ViewModelFactory.getInstance(this)
     }
 
-    //firebase-auth
-    private lateinit var auth: FirebaseAuth
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        /* kode bermasalah
+        Log.d("MainActivity", "MainViewModel instance: $viewModel")
+        observeSession()
+
+        */
 
         auth = Firebase.auth
         val firebaseUser = auth.currentUser
@@ -48,6 +54,8 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
+        supportActionBar?.title = "CareerGrow"
+
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main2)
@@ -55,29 +63,53 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.navigation_home,
                 R.id.navigation_dashboard,
+                R.id.navigation_milestone,
                 R.id.navigation_notifications,
-                R.id.navigation_profile
+                R.id.navigation_profile,
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
 
-        // Observe the user session and update UI accordingly
-        viewModel.getSession().observe(this, { user ->
-            if (user != null) {
-                showLoading(false)
-            } else {
+    /* kode bermasalah
+    private fun observeSession() {
+        viewModel.getSession().observe(this){ user ->
+            if (!user.isLogin) {
+                // User belum login, arahkan ke LoginActivity
                 startActivity(Intent(this, LoginActivity::class.java))
                 finish()
+            } else {
+                // User sudah login, tampilkan halaman MainActivity
+                showLoading(false)
+            }
+        }
+    }
+
+     */
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searView = menu?.findItem(R.id.search)?.actionView as SearchView
+
+        searView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        searView.queryHint = resources.getString(R.string.search_hint)
+        searView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                //set search logic here
+                searView.clearFocus()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
             }
         })
 
-    }
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu, menu)
         return true
     }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_logout -> {

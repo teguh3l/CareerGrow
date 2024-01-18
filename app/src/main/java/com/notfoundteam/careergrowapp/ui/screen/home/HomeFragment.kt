@@ -1,9 +1,13 @@
 package com.notfoundteam.careergrowapp.ui.screen.home
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsets
+import android.view.WindowManager
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.notfoundteam.careergrowapp.databinding.FragmentHomeBinding
@@ -30,15 +34,22 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        displayCurrentDate()
+
+        binding.btnProgress.setOnClickListener { messagePressedButton() }
+
+        binding.btnContinue1.setOnClickListener { messagePressedButton() }
+        binding.btnContinue2.setOnClickListener { messagePressedButton() }
+        binding.btnContinue3.setOnClickListener { messagePressedButton() }
 
         return root
     }
 
-    private fun displayCurrentDate() {
-        val sdf = SimpleDateFormat("dd MMM yyyy", Locale.US)
-        val currentDate = Date()
-        binding.tvCurrentDate.text = sdf.format(currentDate)
+    private fun messagePressedButton() {
+        Toast.makeText(
+            requireContext(),
+            "fitur belum tersedia",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     override fun onDestroyView() {

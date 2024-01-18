@@ -60,6 +60,7 @@ class RegisterActivity : AppCompatActivity() {
             val name = binding.edRegisterName.text.toString()
             val email = binding.edRegisterEmail.text.toString()
             val password = binding.edRegisterPassword.text.toString()
+            val conf_password = binding.edRegisterConfirm.text.toString()
 
             if (name.isEmpty()) {
                 binding.registerName.error = "Nama pengguna tidak boleh kosong"
@@ -70,9 +71,12 @@ class RegisterActivity : AppCompatActivity() {
             } else if (password.isEmpty()) {
                 binding.registerPassword.error = "Password tidak boleh kosong"
                 return@setOnClickListener
+            } else if (conf_password.isEmpty()) {
+                binding.registerConfirm.error = "Konfirmasi password tidak boleh kosong"
+                return@setOnClickListener
             }
 
-            viewModel.register(name,email,password).observe(this) { result ->
+            viewModel.register(name,email,password, conf_password).observe(this) { result ->
                 when(result) {
                     is ResultState.Loading -> {
                         showLoading(true)

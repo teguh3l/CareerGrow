@@ -8,25 +8,26 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.notfoundteam.careergrowapp.ui.screen.home.HomeFragment"
-        android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.notfoundteam.careergrowapp.ui.screen.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
+        android:name="com.notfoundteam.careergrowapp.ui.screen.findjob.DashboardFragment"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
+        android:id="@+id/navigation_milestone"
+        android:name="com.notfoundteam.careergrowapp.ui.screen.milestone.MilestoneFragment"
+        tools:layout="@layout/fragment_milestone" />
+
+    <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.notfoundteam.careergrowapp.ui.screen.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:name="com.notfoundteam.careergrowapp.ui.screen.connection.NotificationsFragment"
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.notfoundteam.careergrowapp.ui.screen.profile.ProfileFragment"
-        android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
 
 </navigation>

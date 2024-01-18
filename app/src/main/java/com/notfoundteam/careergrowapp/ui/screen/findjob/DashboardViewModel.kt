@@ -1,4 +1,4 @@
-package com.notfoundteam.careergrowapp.ui.screen.dashboard
+package com.notfoundteam.careergrowapp.ui.screen.findjob
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

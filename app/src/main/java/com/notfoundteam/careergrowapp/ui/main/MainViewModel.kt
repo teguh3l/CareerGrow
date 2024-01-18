@@ -10,14 +10,15 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(private val repository: UserRepository): ViewModel() {
 
+    //kode bermasalah
     fun getSession(): LiveData<UserModel> {
         return repository.getSession().asLiveData()
     }
-
     fun logout() {
         viewModelScope.launch {
             repository.logout()
         }
     }
+
 
 }
